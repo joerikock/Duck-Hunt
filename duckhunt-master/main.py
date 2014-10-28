@@ -1,6 +1,7 @@
 import os, sys
 import pygame
 import pygame.transform
+from game.registry import Registry
 
 # Game parameters
 surface = pygame.display.set_mode((800, 500))
@@ -15,6 +16,9 @@ pygame.mouse.set_visible(False)
 class Controller(object):
     def __init__(self):
         self.running = True
+        self.registry = registry.Registry()
+        self.registry.set('surface', surface)
+        print self.registry.get('surface')
 
     def execute(self):
         surface.blit(image, (0, 0))
@@ -26,8 +30,8 @@ class Controller(object):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-            pygame.mixer.music.queue('media/blast.ogg')
-            pygame.mixer.music.play(0)
+            #pygame.mixer.music.queue('media/blast.ogg')
+            #pygame.mixer.music.play(0)
         pygame.quit()
 
 class Gun(object):
