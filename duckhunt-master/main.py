@@ -19,13 +19,15 @@ class Controller(object):
     def execute(self):
         surface.blit(image, (0, 0))
         gun = Gun()
-        
+        pygame.mixer.music.load('media/blast.ogg')
         while self.running:
             pygame.display.flip()
             gun.render()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
+            pygame.mixer.music.queue('media/blast.ogg')
+            pygame.mixer.music.play(0)
         pygame.quit()
 
 class Gun(object):
