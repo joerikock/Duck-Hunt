@@ -5,7 +5,7 @@ import pygame.transform
 # Game parameters
 surface = pygame.display.set_mode((800, 500))
 image = pygame.image.load('media/background.jpg')
-position = (50, 50)
+position = (200, 100)
 
 # Initialize pygame before importing modules
 pygame.init()
@@ -19,6 +19,7 @@ class Controller(object):
     def execute(self):
         surface.blit(image, (0, 0))
         gun = Gun()
+        
         while self.running:
             pygame.display.flip()
             gun.render()
