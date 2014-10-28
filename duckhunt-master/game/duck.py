@@ -47,7 +47,7 @@ class Duck(object):
             self.surface.blit(self.duck3,(xpos,ypos))
             self.pduck = 3
         elif self.pduck == 3:
-            selfsurface.blit(self.duck2,(xpos,ypos))
+            self.surface.blit(self.duck2,(xpos,ypos))
             self.pduck = 4
         self.animationclock.tick(5)
 
