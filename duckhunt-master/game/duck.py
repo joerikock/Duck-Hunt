@@ -1,7 +1,5 @@
 import os, random
 import pygame
-#surface = pygame.display.set_mode((800, 500))
-#running = True
 
 class Duck(object):
     def __init__(self, registry):
@@ -54,16 +52,3 @@ class Duck(object):
     def execute(self):
         self.update()
         self.render()
-"""
-ducks = [Duck() for i in range(1,3)]
-while running:
-    surface.fill((255,255,255))
-    for i in ducks:
-        ducks[ducks.index(i)].execute()
-    pygame.display.flip()
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-pygame.quit()
-"""

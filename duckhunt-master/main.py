@@ -1,6 +1,7 @@
 import os, sys
 import pygame
 import pygame.transform
+import pygame.mouse
 from game.registry import Registry
 from game.duck import Duck
 from game.gun import Gun
@@ -28,6 +29,8 @@ class Controller(object):
             surface.blit(background, (0, 0))
             for i in self.ducks:
                 self.ducks[self.ducks.index(i)].execute()
+            #self.gun.setPosition(self.gun, pygame.mouse.get_pos())
+            #print self.gun.getPosition()
             self.gun.render()
             pygame.display.flip()
             for event in pygame.event.get():
