@@ -1,6 +1,7 @@
 import os, sys
 import pygame
 import pygame.transform
+import game.gun
 
 # Game parameters
 screen = pygame.display.set_mode((800, 500))
@@ -17,16 +18,15 @@ class Controller(object):
 
     def execute(self):
         screen.blit(image, (0, 0))
-        try:
-            while self.running:
-                pygame.display.flip()
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        self.running = False
-            pygame.quit()
-        except SystemExit:
-            pygame.quit()
-       
+        gun = Gun()
+        while self.running:
+            pygame.display.flip()
+            gun.render
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+        pygame.quit()
+        
 if __name__ == "__main__":
     controller = Controller()
     controller.execute()

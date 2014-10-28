@@ -1,25 +1,20 @@
 import os, sys
 import pygame
 
+position = (50, 50)
+
 class Gun(object):
-    def __init__(self, registry):
-        self.registry = registry
+    def __init__(self):
         self.rounds = 3
-        self.mousePos = (0,0) # Starting postion
+        #self.mousePos = (0,0) # Starting postion
         self.mouseImg = pygame.image.load(os.path.join('media', 'crosshairs.png'))
 
     def render(self):
         surface = self.registry.get('surface')
-        surface.blit(self.mouseImg, self.mousePos)
+        surface.blit(self.mouseImg, position)
 
     def reloadIt(self):
         self.rounds = 3
-
-    def moveCrossHairs(self, pos):
-        xOffset = self.mouseImg.get_width() / 2
-        yOffset = self.mouseImg.get_height() / 2
-        x, y = pos
-        self.mousePos = (x - xOffset), (y - yOffset)
 
     def shoot(self):
         if self.rounds <= 0:
