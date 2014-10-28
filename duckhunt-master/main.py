@@ -2,6 +2,7 @@ import os, sys
 import pygame
 import pygame.transform
 from game.registry import Registry
+from game.duck import Duck
 
 # Game parameters
 surface = pygame.display.set_mode((800, 500))
@@ -23,9 +24,12 @@ class Controller(object):
     def execute(self):
         surface.blit(image, (0, 0))
         gun = Gun()
+        ducks = [Duck() for i in range(1,3)]
         pygame.mixer.music.load('media/blast.ogg')
         while self.running:
             pygame.display.flip()
+            for i in ducks:
+                ducks[ducks.index(i)].execute()
             gun.render()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
