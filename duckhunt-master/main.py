@@ -23,7 +23,7 @@ class Controller(object):
     def execute(self):
         surface.blit(image, (0, 0))
         gun = Gun()
-        ducks = [Duck() for i in range(1,3)]
+        ducks = [Duck(registry) for i in range(1,3)]
         gun = Gun(registry)
         pygame.mixer.music.load('media/blast.ogg')
         while self.running:
