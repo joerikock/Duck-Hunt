@@ -1,8 +1,7 @@
 import os, random
 import pygame
-
-surface = pygame.display.set_mode((800, 500))
-running = True
+#surface = pygame.display.set_mode((800, 500))
+#running = True
 
 class Duck(object):
     def __init__(self):     
@@ -37,23 +36,23 @@ class Duck(object):
     def render(self):
         xpos, ypos = self.position
         if self.pduck == 4:
-            surface.blit(self.duck1, (xpos,ypos))
+            surface.blit(self.duck1,(xpos,ypos))
             self.pduck = 1
         elif self.pduck == 1:
-            surface.blit(self.duck2, (xpos,ypos))
+            surface.blit(self.duck2,(xpos,ypos))
             self.pduck = 2
         elif self.pduck == 2:
-            surface.blit(self.duck3, (xpos,ypos))
+            surface.blit(self.duck3,(xpos,ypos))
             self.pduck = 3
         elif self.pduck == 3:
-            surface.blit(self.duck2, (xpos,ypos))
+            surface.blit(self.duck2,(xpos,ypos))
             self.pduck = 4
         self.animationclock.tick(5)
 
     def execute(self):
         self.update()
         self.render()
-
+"""
 ducks = [Duck() for i in range(1,3)]
 while running:
     surface.fill((255,255,255))
@@ -65,4 +64,4 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 pygame.quit()
-
+"""
