@@ -29,8 +29,6 @@ class Controller(object):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-            #pygame.mixer.music.queue('media/blast.ogg')
-            #pygame.mixer.music.play(0)
         pygame.quit()
         
 if __name__ == "__main__":
