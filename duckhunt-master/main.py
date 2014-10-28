@@ -2,11 +2,12 @@ import os, sys
 import pygame
 import pygame.transform
 from game.registry import Registry
+from game.gun import Gun
 
 # Game parameters
 surface = pygame.display.set_mode((800, 500))
 image = pygame.image.load('media/background.jpg')
-position = (200, 100)
+registry = Registry()
 
 # Initialize pygame before importing modules
 pygame.init()
@@ -16,13 +17,11 @@ pygame.mouse.set_visible(False)
 class Controller(object):
     def __init__(self):
         self.running = True
-        self.registry = registry.Registry()
-        self.registry.set('surface', surface)
-        print self.registry.get('surface')
+        registry.set('surface', surface)
 
     def execute(self):
         surface.blit(image, (0, 0))
-        gun = Gun()
+        gun = Gun(registry)
         pygame.mixer.music.load('media/blast.ogg')
         while self.running:
             pygame.display.flip()
@@ -33,25 +32,6 @@ class Controller(object):
             #pygame.mixer.music.queue('media/blast.ogg')
             #pygame.mixer.music.play(0)
         pygame.quit()
-
-class Gun(object):
-    def __init__(self):
-        self.rounds = 3
-        self.mouseImg = pygame.image.load('media/crosshairs.png')
-
-    def render(self):
-        surface.blit(self.mouseImg, position)
-
-    def reloadGun(self):
-        self.rounds = 3
-
-    def shoot(self):
-        if self.rounds <= 0:
-            return False
-
-        self.registry.get('soundHandler').enqueue('blast')
-        self.rounds = self.rounds - 1
-        return True
         
 if __name__ == "__main__":
     controller = Controller()
