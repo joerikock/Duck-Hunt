@@ -1,6 +1,7 @@
 import os, sys
 import pygame
 import pygame.transform
+import game.duck
 
 # Game parameters
 surface = pygame.display.set_mode((800, 500))
@@ -51,4 +52,7 @@ class Gun(object):
         
 if __name__ == "__main__":
     controller = Controller()
+    #ducks = [Duck() for i in range(1,3)]
     controller.execute()
+    #for i in ducks:
+    #    ducks[ducks.index(i)].execute()

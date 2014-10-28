@@ -6,40 +6,49 @@ running = True
 
 class Duck(object):
     def __init__(self):     
-        self.duck_clock = pygame.time.Clock()
+        self.animationclock = pygame.time.Clock()
 
-        self.duck1 = pygame.image.load('../media/images/duck1.png')
-        self.duck2 = pygame.image.load('../media/images/duck2.png')
-        self.duck3 = pygame.image.load('../media/images/duck3.png')
-        #self.ducklist = [duck1,duck2,duck3]
-        self.pduck = 3
+        self.duck1 = pygame.image.load('media/images/duck1.png')
+        self.duck2 = pygame.image.load('media/images/duck2.png')
+        self.duck3 = pygame.image.load('media/images/duck3.png')
+        self.pduck = 4
         
         #rsprites = pygame.transform.flip(sprites, True, False)
 
-        xpos = random.choice([0, surface.get_width()-67])
-        ypos = random.randint(0, surface.get_height() / 2)
-        xspeed = 1
-        yspeed = 1
+        xpos = random.randrange(0,surface.get_width() - 67,67)
+        ypos = random.randrange(0,surface.get_height() - 67,67)
+        xspeed = 10
+        yspeed = 10
         self.position = xpos, ypos
-        self.vector = xspeed, yspeed
+        self.speed = xspeed, yspeed
 
     def update(self):
         xpos, ypos = self.position
-        xspeed, yspeed = self.vector
+        xspeed, yspeed = self.speed
+
+        if xpos < 0 or xpos > surface.get_width() - 67:
+            xspeed = -xspeed
+        if ypos < 0 or ypos > surface.get_height() - 67:
+            yspeed = -yspeed
+        
         self.position = (xpos + xspeed), (ypos + yspeed)
+        self.speed = xspeed, yspeed
 
     def render(self):
         xpos, ypos = self.position
-        if self.pduck == 3:
+        if self.pduck == 4:
             surface.blit(self.duck1, (xpos,ypos))
             self.pduck = 1
         elif self.pduck == 1:
             surface.blit(self.duck2, (xpos,ypos))
             self.pduck = 2
-        if self.pduck == 2:
+        elif self.pduck == 2:
             surface.blit(self.duck3, (xpos,ypos))
-            self.pduck = 3      
-        self.duck_clock.tick(5)
+            self.pduck = 3
+        elif self.pduck == 3:
+            surface.blit(self.duck2, (xpos,ypos))
+            self.pduck = 4
+        self.animationclock.tick(5)
 
     def execute(self):
         self.update()
@@ -56,3 +65,4 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 pygame.quit()
+
