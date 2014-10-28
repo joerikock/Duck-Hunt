@@ -1,19 +1,21 @@
 import os, sys
 import pygame
+from .. import main
 
 position = (50, 50)
 
 class Gun(object):
     def __init__(self):
         self.rounds = 3
-        #self.mousePos = (0,0) # Starting postion
-        self.mouseImg = pygame.image.load(os.path.join('media', 'crosshairs.png'))
+        self.mouseImg = pygame.image.load('media/crosshairs.png')
+        print "kaas"
 
     def render(self):
-        surface = self.registry.get('surface')
-        surface.blit(self.mouseImg, position)
+        surface = pygame.Surface((100, 100), pygame.SRCALPHA)
+        screen.blit(self.mouseImg, position)
+        print "yolo"
 
-    def reloadIt(self):
+    def reloadGun(self):
         self.rounds = 3
 
     def shoot(self):
