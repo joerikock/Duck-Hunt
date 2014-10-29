@@ -2,10 +2,8 @@ import os, random
 import pygame, time
 
 class Duck(object):
-    def __init__(self, registry):
-        self.registry = registry;
-        self.surface = self.registry.get('surface')
-        
+    def __init__(self, surface):
+        self.surface = surface
         self.duck1 = pygame.image.load('media/images/duck1.png')
         self.duck2 = pygame.image.load('media/images/duck2.png')
         self.duck3 = pygame.image.load('media/images/duck3.png')
@@ -37,7 +35,6 @@ class Duck(object):
         self.surface.blit(self.duck,(xpos,ypos))
 
     def update(self):
-        xpos, ypos = self.position
         if self.pduck == 4:
             self.duck = self.duck1
             self.pduck = 1

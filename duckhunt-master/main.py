@@ -2,7 +2,6 @@ import os, sys, time
 import pygame
 import pygame.transform
 import pygame.mouse
-from game.registry import Registry
 from game.duck import Duck
 from game.gun import Gun
 from game.hud import HUD
@@ -11,7 +10,6 @@ from game.hud import HUD
 surface = pygame.display.set_mode((800, 500))
 background = pygame.image.load('media/background.jpg')
 FRAMES_PER_SECOND = 50
-registry = Registry()
 
 # Initialize pygame before importing modules
 pygame.init()
@@ -21,11 +19,10 @@ pygame.mouse.set_visible(False)
 class Controller(object):
     def __init__(self):
         self.running = True
-        registry.set('surface', surface)
         surface.blit(background, (0, 0))
         self.hud = HUD(surface)
-        self.ducks = [Duck(registry) for i in range(0,2)]
-        self.gun = Gun(registry)
+        self.ducks = [Duck(surface) for i in range(0,2)]
+        self.gun = Gun(surface)
         self.animationclock = pygame.time.Clock()
         self.time0 = time.time()*1000
 
