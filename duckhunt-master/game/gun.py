@@ -10,7 +10,6 @@ class Gun(object):
         
     def render(self):
         self.surface = self.registry.get('surface')
-        print self.position
         self.surface.blit(self.mouseImg, (self.position))
 
     def reloadGun(self):
