@@ -33,8 +33,9 @@ class Controller(object):
             surface.blit(background, (0, 0))
             for i in self.ducks:
                 self.ducks[self.ducks.index(i)].execute()
-            print pygame.mouse.get_pos()
+            #print pygame.mouse.get_pos()
             self.gun.render()
+            self.hud.render()
             pygame.display.flip()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

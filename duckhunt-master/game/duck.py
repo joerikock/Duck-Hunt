@@ -14,7 +14,7 @@ class Duck(object):
         #rsprites = pygame.transform.flip(sprites, True, False)
 
         xpos = random.randrange(0,self.surface.get_width() - 67,67)
-        ypos = random.randrange(0,self.surface.get_height() - 67,67)
+        ypos = random.randrange(0,self.surface.get_height() - 220)
         xspeed = random.randint(6, 11)
         yspeed = random.randint(6, 11)
         self.position = xpos, ypos
