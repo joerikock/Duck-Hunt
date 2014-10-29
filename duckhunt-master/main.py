@@ -41,14 +41,21 @@ class Controller(object):
     def execute(self):        
         while self.running:
             surface.blit(background, (0, 0))
+
+            # This renders the ducks and makes them flap their wings.
             for i in self.ducks:
                 self.ducks[self.ducks.index(i)].render()
                 time1 = time.time()*1000
                 if (time1-self.time0)%200 < 30:
                     self.ducks[self.ducks.index(i)].update()
+
+            # Render the gun and the HUD.
+            self.gun.setPosition(pygame.mouse.get_pos())
             self.gun.render()
             self.hud.update()
             pygame.display.flip()
+
+            # When the window is closed, shut pygame down.
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False

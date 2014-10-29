@@ -8,9 +8,6 @@ which is received by the Controller in the constructor of Gun.
 import os, sys
 import pygame
 
-# The position of the crosshair.
-POSITION = (200, 100)
-
 # The Gun class, responsible for blitting the crosshair.
 class Gun(object):
 
@@ -18,15 +15,16 @@ class Gun(object):
     def __init__(self, surface):
         self.surface = surface
         self.mouseImg = pygame.image.load('media/crosshairs.png')
+        self.postition = (200, 100)
 
     # This method renders the image onto the surface. It is called by the main game loop.
     def render(self):
-        self.surface.blit(self.mouseImg, (POSITION))
+        self.surface.blit(self.mouseImg, (self.position))
 
     # Fetch the position of the crosshair.
     def getPosition(self):
-        return POSITION
+        return self.position
 
     # Set a new X and Y value for the crosshair.
-    def setPosition(self, x, y):
-        POSITION = (x, y)
+    def setPosition(self, (x, y)):
+        self.position = (x, y)
