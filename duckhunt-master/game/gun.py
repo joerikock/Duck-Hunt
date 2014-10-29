@@ -15,7 +15,7 @@ class Gun(object):
     def __init__(self, surface):
         self.surface = surface
         self.mouseImg = pygame.image.load('media/crosshairs.png')
-        self.postition = (200, 100)
+        self.position = (200, 100)
 
     # This method renders the image onto the surface. It is called by the main game loop.
     def render(self):
