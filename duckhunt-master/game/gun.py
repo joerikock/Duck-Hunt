@@ -1,9 +1,11 @@
 import os, sys
 import pygame
 
+POSITION = (200, 100)
+
 class Gun(object):
     def __init__(self, registry):
-        self.position = (0,0)
+        self.position = POSITION
         self.registry = registry
         self.rounds = 3
         self.mouseImg = pygame.image.load('media/crosshairs.png')

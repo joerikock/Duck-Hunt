@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, time
 import pygame
 import pygame.transform
 import pygame.mouse
@@ -24,18 +24,21 @@ class Controller(object):
         registry.set('surface', surface)
         surface.blit(background, (0, 0))
         self.hud = HUD(surface)
-        self.ducks = [Duck(registry) for i in range(1,3)]
+        self.ducks = [Duck(registry) for i in range(0,2)]
         self.gun = Gun(registry)
         self.animationclock = pygame.time.Clock()
+        self.time0 = time.time()*1000
 
     def execute(self):        
         while self.running:
             surface.blit(background, (0, 0))
             for i in self.ducks:
-                self.ducks[self.ducks.index(i)].execute()
-            #print pygame.mouse.get_pos()
+                self.ducks[self.ducks.index(i)].render()
+                time1 = time.time()*1000
+                if (time1-self.time0)%200 < 30:
+                    self.ducks[self.ducks.index(i)].update()
             self.gun.render()
-            self.hud.render()
+            self.hud.update()
             pygame.display.flip()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

@@ -19,7 +19,7 @@ class HUD(object):
         self.white = pygame.image.load('media/white.png')
         self.font = pygame.font.Font("media/arcadeclassic.ttf", 20)
 
-    def render(self):
+    def update(self):
         #Show the general HUD
         self.surface.blit(self.shot, (60,440))
         self.surface.blit(self.hit, (245,440))

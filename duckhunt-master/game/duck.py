@@ -1,5 +1,5 @@
 import os, random
-import pygame
+import pygame, time
 
 class Duck(object):
     def __init__(self, registry):
@@ -15,12 +15,15 @@ class Duck(object):
 
         xpos = random.randrange(0,self.surface.get_width() - 67,67)
         ypos = random.randrange(0,self.surface.get_height() - 220)
-        xspeed = random.randint(6, 11)
-        yspeed = random.randint(6, 11)
+        #xspeed = random.randint(4, 8)
+        #yspeed = random.randint(4, 8)
+        xspeed = 3
+        yspeed = 3
         self.position = xpos, ypos
         self.speed = xspeed, yspeed
+        self.duck = self.duck1
 
-    def update(self):
+    def render(self):
         xpos, ypos = self.position
         xspeed, yspeed = self.speed
 
@@ -31,22 +34,19 @@ class Duck(object):
         
         self.position = (xpos + xspeed), (ypos + yspeed)
         self.speed = xspeed, yspeed
+        self.surface.blit(self.duck,(xpos,ypos))
 
-    def render(self):
+    def update(self):
         xpos, ypos = self.position
         if self.pduck == 4:
-            self.surface.blit(self.duck1,(xpos,ypos))
+            self.duck = self.duck1
             self.pduck = 1
         elif self.pduck == 1:
-            self.surface.blit(self.duck2,(xpos,ypos))
+            self.duck = self.duck2
             self.pduck = 2
         elif self.pduck == 2:
-            self.surface.blit(self.duck3,(xpos,ypos))
+            self.duck = self.duck3
             self.pduck = 3
         elif self.pduck == 3:
-            self.surface.blit(self.duck2,(xpos,ypos))
+            self.duck = self.duck2
             self.pduck = 4
-
-    def execute(self):
-        self.update()
-        self.render()
