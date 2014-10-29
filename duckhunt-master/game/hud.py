@@ -1,14 +1,28 @@
+"""
+The class for the HUD (Head-Up Display) in our game. It shows the current
+number of bullets, the score, and all the ducks of the current round. If
+a duck is red, it is killed. A white duck is yet to be killed or the player
+failed to kill this duck. This class uses the input of the FPGA board to
+visualize the display.
+"""
+
+# This file's imports.
 import os, sys
 import pygame
 
 #class variables
 BULLETS = 2
 DUCK_COORDINATES = [320, 340, 360, 380, 400, 420, 440, 460, 480, 500]
+
 #received red/white data. True = red, False = white
 HIT_ARRAY= [True, False, False, True, True, False, False, False, False, False]
+
 SCORE = 2655
 
+#The HUD class responsible for showing the on-screen HUD
 class HUD(object):
+    
+    # The initialisation class. It receives a surface to blit on.
     def __init__(self, surface):
         self.surface = surface
         self.shot = pygame.image.load('media/shot.png')
@@ -19,7 +33,9 @@ class HUD(object):
         self.white = pygame.image.load('media/white.png')
         self.font = pygame.font.Font("media/arcadeclassic.ttf", 20)
 
+    #This update method is called in every iteration in the main game loop.
     def update(self):
+        
         #Show the general HUD
         self.surface.blit(self.shot, (60,440))
         self.surface.blit(self.hit, (245,440))
