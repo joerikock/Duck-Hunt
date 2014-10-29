@@ -1,46 +1,57 @@
+"""
+The class describing a duck in the game. It receives the X and Y coordinates
+of the duck from the FPGA board, and visualizes this to our surface. This
+surface is received in the constructor, "__init__". It renders a bird that
+is flapping its wings for a more realistic effect.
+"""
+
+# This file's imports.
 import os, random
 import pygame, time
 
+# The class Duck, responsible for defining a duck.
 class Duck(object):
+
+    # The constructor of Duck, setting the initial values and loading the images.
     def __init__(self, surface):
         self.surface = surface
 
-        #load duck images in normal duck image variables
+        # Load duck images in normal duck image variables.
         self.nduck1 = pygame.image.load('media/images/duck1.png')
         self.nduck2 = pygame.image.load('media/images/duck2.png')
         self.nduck3 = pygame.image.load('media/images/duck3.png')
 
-        #flip the duck images
+        # Create the flipped duck images.
         self.rduck1 = pygame.transform.flip(self.nduck1, True, False)
         self.rduck2 = pygame.transform.flip(self.nduck2, True, False)
         self.rduck3 = pygame.transform.flip(self.nduck3, True, False)
 
-        #set previous duck to last animation so update function starts with the first
+        # Set previous duck to last animation so update function starts with the first.
         self.pduck = 4
 
-        #initialize randomized starting position and speed of duck
+        # Initialize randomized starting position and speed of duck.
         xpos = random.randrange(0,self.surface.get_width() - 67, 67)
         ypos = random.randrange(0,self.surface.get_height() - 220, 67)
         xspeed = random.randint(2, 5)
         yspeed = random.randint(2, 5)
 
-        #if horizontal speed is positive, use normal duck image
+        # If horizontal speed is positive, use normal duck image.
         if xspeed >= 0:
             self.duck1 = self.nduck1
             self.duck2 = self.nduck2
             self.duck3 = self.nduck3
-        #else use the reversed image
+        # Else, use the reversed image.
         else:
             self.duck1 = self.rduck1
             self.duck2 = self.rduck2
             self.duck3 = self.rduck3
 
-        #initialize duck  
+        # Initialize duck.
         self.duck = self.duck1 
         self.position = xpos, ypos
         self.speed = xspeed, yspeed
 
-    #reverse the duck image when this method is called
+    # Reverse the duck image when this method is called.
     def flipducks(self):
         if self.duck1 == self.nduck1:
             self.duck1 = self.rduck1
@@ -61,22 +72,22 @@ class Duck(object):
         xpos, ypos = self.position
         xspeed, yspeed = self.speed
 
-        #if duck hits vertical wall, reverse horizontal speed and flip image
+        # If duck hits vertical wall, reverse horizontal speed and flip image.
         if xpos < 0 or xpos > self.surface.get_width() - 67:
             xspeed = -xspeed
             self.flipducks()
-        #if duck hits horizontal wall, reverse vertical speed
+        # If duck hits horizontal wall, reverse vertical speed.
         if ypos < 0 or ypos > self.surface.get_height() - 220:
             yspeed = -yspeed
 
-        #update position and speed
+        # Update position and speed.
         self.position = (xpos + xspeed), (ypos + yspeed)
         self.speed = xspeed, yspeed
 
-        #render the duck
+        # Render the duck.
         self.surface.blit(self.duck,(xpos,ypos))
 
-    #cycle through the flying animation
+    # Cycle through the flying animation.
     def update(self):
         if self.pduck == 4:
             self.duck = self.duck1
