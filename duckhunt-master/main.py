@@ -17,7 +17,9 @@ from game.hud import HUD
 # Game parameters
 surface = pygame.display.set_mode((800, 500))
 background = pygame.image.load('media/background.jpg')
-FRAMES_PER_SECOND = 50
+background_top = pygame.image.load('media/background_top.jpg')
+background_bottom = pygame.image.load('media/background_bottom.jpg')
+FRAMES_PER_SECOND = 1000
 
 # Initialize pygame before importing modules
 pygame.init()
@@ -30,7 +32,8 @@ class Controller(object):
     # The constructor of Controller. It sets all the main objects and timers.
     def __init__(self):
         self.running = True
-        surface.blit(background, (0, 0))
+        surface.blit(background_top, (0, 0))
+        surface.blit(background_bottom, (0, 347))
         self.hud = HUD(surface)
         self.ducks = [Duck(surface) for i in range(0,2)]
         self.gun = Gun(surface)
@@ -40,7 +43,7 @@ class Controller(object):
     # This method contains the main game loop.
     def execute(self):        
         while self.running:
-            surface.blit(background, (0, 0))
+            surface.blit(background_top, (0, 0))
 
             # This renders the ducks and makes them flap their wings.
             for i in self.ducks:
@@ -53,6 +56,8 @@ class Controller(object):
             self.gun.setPosition(pygame.mouse.get_pos())
             self.gun.render()
             self.hud.update()
+            text = "Duck Hunt    FPS: {0:.2f}".format(self.animationclock.get_fps())
+            pygame.display.set_caption(text)
             pygame.display.flip()
 
             # When the window is closed, shut pygame down.

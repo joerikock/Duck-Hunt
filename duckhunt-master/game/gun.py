@@ -27,4 +27,5 @@ class Gun(object):
 
     # Set a new X and Y value for the crosshair.
     def setPosition(self, (x, y)):
-        self.position = (x, y)
+        if y < 297:
+            self.position = (x, y)
