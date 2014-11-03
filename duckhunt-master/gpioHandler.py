@@ -41,9 +41,6 @@ while True:
 				bits[j] = random.randint(0,1)
 			"""
 		word = bits
-#		word = ''.join([str(bit) for bit in word]) #join array to one string
-#		word = int(word,2) #convert to decimal
-#		word = hex(word) #convert to  hex
 		words[i] = word
 		print i, words[i]
 		if i == 9:
@@ -62,3 +59,7 @@ while True:
 #	for k in range(len(words)):
 #		print k, words[k]
 
+class Words(object)
+        def getWord(i):
+                return words[i]
+        

@@ -13,6 +13,7 @@ import pygame.mouse
 from game.duck import Duck
 from game.gun import Gun
 from game.hud import HUD
+from gpioHandler import Words
 
 # Game parameters
 surface = pygame.display.set_mode((800, 500))
