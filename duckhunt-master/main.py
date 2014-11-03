@@ -20,6 +20,8 @@ background = pygame.image.load('media/background.jpg')
 background_top = pygame.image.load('media/background_top.jpg')
 background_bottom = pygame.image.load('media/background_bottom.jpg')
 FRAMES_PER_SECOND = 1000
+GUNX = [0,0,1,1,0,0,1,0,0,0]
+GUNY = [0,0,1,1,0,0,1,0,0]
 
 # Initialize pygame before importing modules
 pygame.init()
@@ -53,7 +55,7 @@ class Controller(object):
                     self.ducks[self.ducks.index(i)].update()
 
             # Render the gun and the HUD.
-            self.gun.setPosition(pygame.mouse.get_pos())
+            self.gun.setPosition((int(''.join([str(bit) for bit in GUNX]), 2), int(''.join([str(bit) for bit in GUNY]), 2)))
             self.gun.render()
             self.hud.update()
             text = "Duck Hunt    FPS: {0:.2f}".format(self.animationclock.get_fps())
