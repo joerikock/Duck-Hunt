@@ -3,56 +3,62 @@ import time, random
 
 wiringPi.wiringPiSetupGpio()
 
+PINS = [7,8,4,25,24,23,22,27,18,17]
 CLOCK = 9
 ACK = 10
-PINS = [17,18,27,22,23,24,25,4,8,7]
+CLKSPD = 250.25/1000 #difference in s between rising and falling edges of the clock
 
-wiringPi.pinMode(CLOCK, 1)
-wiringPi.pinMode(ACK, 1)
 for i in PINS:
 	wiringPi.pinMode(i, 0)
+wiringPi.pinMode(CLOCK, 1)
+wiringPi.pinMode(ACK, 1)
 
-#time0 = time.time()
-#time1 = time.time()
-#time2 = time.time()
+time0 = time.time()
+time1 = time.time()-time0
+time2 = time.time()-time0
 
 bits = [0 for i in range(0,10)]
 words = [bits[:] for i in range(0,10)]
 
 wiringPi.digitalWrite(ACK, 1)
-time.sleep(0.00125)
+time.sleep(CLKSPD)
 wiringPi.digitalWrite(ACK, 0)
 
 while True:
 	for i in range(len(words)):	
 		wiringPi.digitalWrite(CLOCK, 1)
-		time.sleep(0.00125)
-#		time1 = time.time()-time0
-#		print (time1-time2)*1000
+		time1 = time.time()-time0
+		while time1-time2 < CLKSPD:
+			time1 = time.time()-time0
+#		print round((time1-time2)*1000,2)
 		wiringPi.digitalWrite(CLOCK, 0)
 		for j in range(len(bits)):
 			bits[j] = wiringPi.digitalRead(PINS[j])
-			
+			""" 
 			if i == 0 or i == 9:
 				bits[j] = 1
 			else:
 				bits[j] = random.randint(0,1)
-		
-		words[i] = list(bits)
-#		print i, words[i]
+			"""
+		word = bits
+#		word = ''.join([str(bit) for bit in word]) #join array to one string
+#		word = int(word,2) #convert to decimal
+#		word = hex(word) #convert to  hex
+		words[i] = word
+		print i, words[i]
 		if i == 9:
 			wiringPi.digitalWrite(ACK, 1)
-#			print "ACK = 1"
-			time.sleep(0.00125)
+			time2 = time.time()-time0
+			while time2-time1 < CLKSPD:
+				time2 = time.time()-time0
 			wiringPi.digitalWrite(ACK, 0)
-#			print "ACK = 0"
 		else:
-			time.sleep(0.00125)
-#		time2 = time.time()-time0
-#		print (time2-time1)*1000
+			time2 = time.time()-time0
+			while time2-time1 < CLKSPD:
+				time2 = time.time()-time0
+#		print round((time2-time1)*1000,2)
+ 
 	print "word, content "
-	for k in range(len(words)):
-		byte = words[k]
-		byte = ''.join([str(bit) for bit in byte]) 
-		byte = int(byte,2) #for decimal
-		print k, byte
+#	for k in range(len(words)):
+#		print k, words[k]
+
