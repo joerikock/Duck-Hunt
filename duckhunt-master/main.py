@@ -13,7 +13,7 @@ import pygame.mouse
 from game.duck import Duck
 from game.gun import Gun
 from game.hud import HUD
-from gpioHandler import Words
+#from gpioHandler import GpioHandler
 
 # Game parameters
 surface = pygame.display.set_mode((800, 500))
@@ -21,6 +21,8 @@ background = pygame.image.load('media/background.jpg')
 background_top = pygame.image.load('media/background_top.jpg')
 background_bottom = pygame.image.load('media/background_bottom.jpg')
 FRAMES_PER_SECOND = 1000
+#GUNX = self.gpio.getWord(6)
+#GUNY = self.gpio.getWord(7)
 GUNX = [0,0,1,1,0,0,1,0,0,0]
 GUNY = [0,0,1,1,0,0,1,0,0]
 
@@ -42,6 +44,7 @@ class Controller(object):
         self.gun = Gun(surface)
         self.animationclock = pygame.time.Clock()
         self.time0 = time.time()*1000
+        #self.gpio = GpioHandler()
 
     # This method contains the main game loop.
     def execute(self):        
@@ -59,6 +62,7 @@ class Controller(object):
             self.gun.setPosition((int(''.join([str(bit) for bit in GUNX]), 2), int(''.join([str(bit) for bit in GUNY]), 2)))
             self.gun.render()
             self.hud.update()
+            #self.gpio.updateData()
             text = "Duck Hunt    FPS: {0:.2f}".format(self.animationclock.get_fps())
             pygame.display.set_caption(text)
             pygame.display.flip()

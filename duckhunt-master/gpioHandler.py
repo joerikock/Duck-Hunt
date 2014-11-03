@@ -39,7 +39,7 @@ class GpioHandler(object):
                                 self.bits[j] = wiringPi.digitalRead(PINS[j])
 
                         self.words[i] = list(self.bits)
-			print i, self.words[i]
+                        print i, self.words[i]
 
                         if i == 9:
                                 wiringPi.digitalWrite(ACK, 1)
