@@ -26,6 +26,7 @@ class GpioHandler(object):
                 time.sleep(CLKSPD)
 
         def updateData(self):
+                print "word, content "
                 for i in range(len(self.words)):                        
                         wiringPi.digitalWrite(ACK, 0)
                         wiringPi.digitalWrite(CLOCK, 1)
@@ -36,19 +37,8 @@ class GpioHandler(object):
                         wiringPi.digitalWrite(CLOCK, 0)
                         for j in range(len(self.bits)):
                                 self.bits[j] = wiringPi.digitalRead(PINS[j])
-                                """ 
-                                if i == 0 or i == 9:
-                                        self.bits[j] = 1
-                                else:
-                                        self.bits[j] = random.randint(0,1)
-                                """
-			#converting for debugging purposes here
-                        word = self.bits
-			word = ''.join([str(bit) for bit in word]) #join array to one string
-#			word = int(word,2) #convert to decimal
-#			word = hex(word) #convert to  hex
 
-                        self.words[i] = word #list(self.bits)
+                        self.words[i] = list(self.bits)
 			print i, self.words[i]
 
                         if i == 9:
@@ -58,11 +48,6 @@ class GpioHandler(object):
                         while self.time2-self.time1 < CLKSPD:
                                 self.time2 = time.time()-self.time0
 #       		print round((self.time2-self.time1)*1000,2)
-         
-                print "word, content "
-#        	for k in range(len(words)):
-#               	print k, self.words[k]
-
         def getWord(i):
                 return self.words[i]
 """ for standalone running on Pi        
