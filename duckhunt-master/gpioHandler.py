@@ -1,12 +1,25 @@
+"""
+The GpioHandler class handles the incoming signals from the FPGA board. It
+creates arrays of 10 bits, and combines these arrays to a word. These words
+are received every 3 milliseconds, and contain all the information the Pi
+needs to visualise the game.
+"""
+
+# This file's imports.
 import wiringpi2 as wiringPi 
 import time, random
 
+# The constants this class uses.
 PINS = [7,8,4,25,24,23,22,27,18,17]
 CLOCK = 9
 ACK = 10
-CLKSPD = 1.25/1000 #difference in s between rising and falling edges of the clock
+# Difference in seconds between rising and falling edges of the clock
+CLKSPD = 1.25/1000 
 
+# The GpioHandler class, receiving the signals from the FPGA.
 class GpioHandler(object):
+
+        # The constructor of GpioHandler. It sets the pins and timers.
         def __init__(self):
                 wiringPi.wiringPiSetupGpio()
 
@@ -25,6 +38,7 @@ class GpioHandler(object):
                 wiringPi.digitalWrite(ACK, 1)
                 time.sleep(CLKSPD)
 
+        # This update method is called every iteration of the main loop.
         def updateData(self):
                 print "word, content "
                 for i in range(len(self.words)):                        
@@ -48,6 +62,8 @@ class GpioHandler(object):
                         while self.time2-self.time1 < CLKSPD:
                                 self.time2 = time.time()-self.time0
 #       		print round((self.time2-self.time1)*1000,2)
+
+        # This method returns the words, so other classes can use them.
         def getWord(i):
                 return self.words[i]
 """ for standalone running on Pi        
