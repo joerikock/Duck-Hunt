@@ -52,8 +52,30 @@ class GpioHandler(object):
 #       		print round((self.time1-self.time2)*1000,2)
 
                         wiringPi.digitalWrite(CLOCK, 0)
-                        for j in range(len(self.bits)):
-                                self.bits[j] = wiringPi.digitalRead(PINS[j])
+
+                        #for j in range(len(self.bits)):
+                                #self.bits[j] = wiringPi.digitalRead(PINS[j])
+			#dummy data
+			if i == 0:
+				self.bits = [1,1,1,1,1,1,1,1,1,1]
+			elif i == 1:
+				self.bits = [0,0,1,1,0,0,1,0,0,0]
+			elif i == 2:
+				self.bits = [0,0,0,1,1,0,0,1,0,0]
+			elif i == 3:
+				self.bits = [0,1,1,1,1,1,0,1,0,0]
+			elif i == 4:
+				self.bits = [0,0,0,0,1,1,0,0,1,0]
+			elif i == 5:
+				self.bits = [0,0,0,0,0,1,0,0,0,1]
+			elif i == 6:
+				self.bits = [0,0,1,1,0,0,1,0,0,0]
+			elif i == 7:
+				self.bits = [0,0,0,1,1,0,0,1,0,0]
+			elif i == 8:
+				self.bits = [1,1,1,0,1,0,0,1,1,0]
+			elif i == 9:
+				self.bits = [0,1,0,0,1,1,1,0,0,0]
 
                         self.words[i] = list(self.bits)
                         print i, self.words[i]
