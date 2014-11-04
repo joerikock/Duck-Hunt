@@ -14,7 +14,7 @@ PINS = [7,8,4,25,24,23,22,27,18,17]
 CLOCK = 9
 ACK = 10
 # Difference in seconds between rising and falling edges of the clock
-CLKSPD = 0.0/1000 
+CLKSPD = 150.0/1000 
 
 # The GpioHandler class, receiving the signals from the FPGA.
 class GpioHandler(object):
@@ -55,7 +55,7 @@ class GpioHandler(object):
 
                         for j in range(len(self.bits)):
                                 self.bits[j] = wiringPi.digitalRead(PINS[j])
-                        """#dummy data
+                        #dummy data
                         if i == 0:
                                 self.bits = [1,1,1,1,1,1,1,1,1,1]
                         elif i == 1:
@@ -73,13 +73,15 @@ class GpioHandler(object):
                         elif i == 7:
                                 self.bits = [0,0,0,1,1,0,0,1,0,0]
                         elif i == 8:
-                                self.bits = [1,1,1,0,1,0,0,1,1,0]
+                                self.bits = [1,1,1,1,1,1,1,1,1,1] # [1,1,1,0,1,0,0,1,1,0]
                         elif i == 9:
                                 self.bits = [0,1,0,0,1,1,1,0,0,0]
-                        """
-                        self.words[i] = list(self.bits)
+                        
+			self.words[i] = list(self.bits)
                         print i, self.words[i]
-
+                        
+			if i != 0 and self.words[i] == [1 for k in range(len(self.bits))]:
+				wiringPi.digitalWrite(ACK, 1)
                         if self.words[0] != [1 for k in range(0,10)] or i == max(range(len(self.words))):
                                 wiringPi.digitalWrite(ACK, 1)
 
@@ -88,15 +90,17 @@ class GpioHandler(object):
                                 self.time2 = time.time()-self.time0
 #                       print round((self.time2-self.time1)*1000,2)
 
-                        if self.words[0] != [1 for k in range(0,10)]:
+			if (i != 0 and self.words[i] == [1 for k in range(len(self.bits))]:
+				break                        
+			if self.words[0] != [1 for k in range(len(self.bits))]:
                                 break
 
         # This method returns the words, so other classes can use them.
         def getWord(self,i):
                 return self.words[i]
-"""        
+        
 #for standalone running on Pi
 handler = GpioHandler()
 while True:
         handler.updateData()
-"""
+
