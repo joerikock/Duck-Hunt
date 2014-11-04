@@ -1,7 +1,7 @@
 """
-The GpioHandler class handles the incoming signals from the FPGA board. It
-creates arrays of 10 bits, and combines these arrays to a word. These words
-are received every 3 milliseconds, and contain all the information the Pi
+The GpioHandler class handles the incoming signals from the FPGA board. It reads 10 bits
+on every falling edge of the clock, and stores these words in an array of 10 words.
+The 10 words are received every 3 milliseconds, and contain all the information the Pi
 needs to visualise the game.
 """
 
@@ -42,12 +42,15 @@ class GpioHandler(object):
         def updateData(self):
                 print "word, content "
                 for i in range(len(self.words)):                        
-                        wiringPi.digitalWrite(ACK, 0)
+                        if wiringPi.digitalRead(ACK) != 0:
+                                wiringPi.digitalWrite(ACK, 0)
                         wiringPi.digitalWrite(CLOCK, 1)
+
                         self.time1 = time.time()-self.time0
                         while self.time1-self.time2 < CLKSPD:
                                 self.time1 = time.time()-self.time0
 #       		print round((self.time1-self.time2)*1000,2)
+
                         wiringPi.digitalWrite(CLOCK, 0)
                         for j in range(len(self.bits)):
                                 self.bits[j] = wiringPi.digitalRead(PINS[j])
@@ -55,7 +58,7 @@ class GpioHandler(object):
                         self.words[i] = list(self.bits)
                         print i, self.words[i]
 
-                        if i == 9:
+                        if self.words[0] != [1 for k in range(0,10)] or i == max(range(len(self.words))):
                                 wiringPi.digitalWrite(ACK, 1)
 
                         self.time2 = time.time()-self.time0                        
@@ -63,9 +66,13 @@ class GpioHandler(object):
                                 self.time2 = time.time()-self.time0
 #       		print round((self.time2-self.time1)*1000,2)
 
+                        if self.words[0] != [1 for k in range(0,10)]:
+                                break
+
         # This method returns the words, so other classes can use them.
         def getWord(i):
                 return self.words[i]
+        
 """ for standalone running on Pi        
 handler = GpioHandler()
 
