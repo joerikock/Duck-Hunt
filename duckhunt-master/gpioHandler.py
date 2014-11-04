@@ -14,7 +14,7 @@ PINS = [7,8,4,25,24,23,22,27,18,17]
 CLOCK = 9
 ACK = 10
 # Difference in seconds between rising and falling edges of the clock
-CLKSPD = 1.25/1000 
+CLKSPD = 0.0/1000 
 
 # The GpioHandler class, receiving the signals from the FPGA.
 class GpioHandler(object):
@@ -40,7 +40,7 @@ class GpioHandler(object):
 
         # This update method is called every iteration of the main loop.
         def updateData(self):
-                print "word, content "
+                print "i value"
                 for i in range(len(self.words)):                        
                         if wiringPi.digitalRead(ACK) != 0:
                                 wiringPi.digitalWrite(ACK, 0)
@@ -49,34 +49,34 @@ class GpioHandler(object):
                         self.time1 = time.time()-self.time0
                         while self.time1-self.time2 < CLKSPD:
                                 self.time1 = time.time()-self.time0
-#       		print round((self.time1-self.time2)*1000,2)
+#                       print round((self.time1-self.time2)*1000,2)
 
                         wiringPi.digitalWrite(CLOCK, 0)
 
-                        #for j in range(len(self.bits)):
-                                #self.bits[j] = wiringPi.digitalRead(PINS[j])
-			#dummy data
-			if i == 0:
-				self.bits = [1,1,1,1,1,1,1,1,1,1]
-			elif i == 1:
-				self.bits = [0,0,1,1,0,0,1,0,0,0]
-			elif i == 2:
-				self.bits = [0,0,0,1,1,0,0,1,0,0]
-			elif i == 3:
-				self.bits = [0,1,1,1,1,1,0,1,0,0]
-			elif i == 4:
-				self.bits = [0,0,0,0,1,1,0,0,1,0]
-			elif i == 5:
-				self.bits = [0,0,0,0,0,1,0,0,0,1]
-			elif i == 6:
-				self.bits = [0,0,1,1,0,0,1,0,0,0]
-			elif i == 7:
-				self.bits = [0,0,0,1,1,0,0,1,0,0]
-			elif i == 8:
-				self.bits = [1,1,1,0,1,0,0,1,1,0]
-			elif i == 9:
-				self.bits = [0,1,0,0,1,1,1,0,0,0]
-
+                        for j in range(len(self.bits)):
+                                self.bits[j] = wiringPi.digitalRead(PINS[j])
+                        """#dummy data
+                        if i == 0:
+                                self.bits = [1,1,1,1,1,1,1,1,1,1]
+                        elif i == 1:
+                                self.bits = [0,0,1,1,0,0,1,0,0,0]
+                        elif i == 2:
+                                self.bits = [0,0,0,1,1,0,0,1,0,0]
+                        elif i == 3:
+                                self.bits = [0,1,1,1,1,1,0,1,0,0]
+                        elif i == 4:
+                                self.bits = [0,0,0,0,1,1,0,0,1,0]
+                        elif i == 5:
+                                self.bits = [0,0,0,0,0,1,0,1,0,1]
+                        elif i == 6:
+                                self.bits = [0,0,1,1,0,0,1,0,0,0]
+                        elif i == 7:
+                                self.bits = [0,0,0,1,1,0,0,1,0,0]
+                        elif i == 8:
+                                self.bits = [1,1,1,0,1,0,0,1,1,0]
+                        elif i == 9:
+                                self.bits = [0,1,0,0,1,1,1,0,0,0]
+                        """
                         self.words[i] = list(self.bits)
                         print i, self.words[i]
 
@@ -86,18 +86,17 @@ class GpioHandler(object):
                         self.time2 = time.time()-self.time0                        
                         while self.time2-self.time1 < CLKSPD:
                                 self.time2 = time.time()-self.time0
-#       		print round((self.time2-self.time1)*1000,2)
+#                       print round((self.time2-self.time1)*1000,2)
 
                         if self.words[0] != [1 for k in range(0,10)]:
                                 break
 
         # This method returns the words, so other classes can use them.
-        def getWord(i):
+        def getWord(self,i):
                 return self.words[i]
-        
-""" for standalone running on Pi        
+"""        
+#for standalone running on Pi
 handler = GpioHandler()
-
 while True:
-	handler.updateData()
+        handler.updateData()
 """

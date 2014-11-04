@@ -13,7 +13,7 @@ import pygame.mouse
 from game.duck import Duck
 from game.gun import Gun
 from game.hud import HUD
-#from gpioHandler import GpioHandler
+from gpioHandler import GpioHandler
 
 # Game parameters
 surface = pygame.display.set_mode((800, 500))
@@ -21,10 +21,6 @@ background = pygame.image.load('media/background.jpg')
 background_top = pygame.image.load('media/background_top.jpg')
 background_bottom = pygame.image.load('media/background_bottom.jpg')
 FRAMES_PER_SECOND = 1000
-#GUNX = self.gpio.getWord(6)
-#GUNY = self.gpio.getWord(7)
-GUNX = [0,0,1,1,0,0,1,0,0,0]
-GUNY = [0,0,1,1,0,0,1,0,0]
 
 # Initialize pygame before importing modules
 pygame.init()
@@ -44,25 +40,46 @@ class Controller(object):
         self.gun = Gun(surface)
         self.animationclock = pygame.time.Clock()
         self.time0 = time.time()*1000
-        #self.gpio = GpioHandler()
+        self.gpio = GpioHandler()
+        self.gunx = [0 for i in range(0,10)]
+        self.guny = [0 for i in range(0,10)]
+        self.duck1x = [0 for i in range(0,10)]
+        self.duck1y = [0 for i in range(0,10)]
+        self.duck2x = [0 for i in range(0,10)]
+        self.duck2y = [0 for i in range(0,10)]
 
     # This method contains the main game loop.
     def execute(self):        
         while self.running:
             surface.blit(background_top, (0, 0))
 
+            self.duck1x = self.gpio.getWord(1)
+            self.duck1y = self.gpio.getWord(2)
+            self.duck2x = self.gpio.getWord(3)
+            self.duck2y = self.gpio.getWord(4)
             # This renders the ducks and makes them flap their wings.
+            self.ducks[0].setPosition((int(''.join([str(bit) for bit in self.duck1x]), 2), int(''.join([str(bit) for bit in self.duck1y]), 2)))
+            self.ducks[1].setPosition((int(''.join([str(bit) for bit in self.duck2x]), 2), int(''.join([str(bit) for bit in self.duck2y]), 2)))
             for i in self.ducks:
-                self.ducks[self.ducks.index(i)].render()
-                time1 = time.time()*1000
-                if (time1-self.time0)%200 < 30:
-                    self.ducks[self.ducks.index(i)].update()
+                if self.gpio.getWord(5)[self.ducks.index(i)+7] == 0:
+                    self.ducks[self.ducks.index(i)].render()
+                    
+                    time1 = time.time()*1000
+                    if (time1-self.time0)%200 < 30:
+                        self.ducks[self.ducks.index(i)].update()
+                    
 
             # Render the gun and the HUD.
-            self.gun.setPosition((int(''.join([str(bit) for bit in GUNX]), 2), int(''.join([str(bit) for bit in GUNY]), 2)))
+            self.gunx = self.gpio.getWord(6)
+            self.guny = self.gpio.getWord(7)
+            self.gun.setPosition((int(''.join([str(bit) for bit in self.gunx]), 2), int(''.join([str(bit) for bit in self.guny]), 2)))
             self.gun.render()
+
+            self.hud.setBullets(self.gpio.getWord(5))
+            self.hud.setHitArray(self.gpio.getWord(8))
+            self.hud.setScore(self.gpio.getWord(9))
             self.hud.update()
-            #self.gpio.updateData()
+            self.gpio.updateData()
             text = "Duck Hunt    FPS: {0:.2f}".format(self.animationclock.get_fps())
             pygame.display.set_caption(text)
             pygame.display.flip()

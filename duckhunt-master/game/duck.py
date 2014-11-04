@@ -67,7 +67,12 @@ class Duck(object):
             self.duck3 = self.rduck3
         else:
             self.duck3 = self.nduck3
+    
+    # Method for setting the new position of the duck.
+    def setPosition(self, (x, y)):
+        self.position = (x,y)
 
+    # Renders the duck on the surface.
     def render(self):
         xpos, ypos = self.position
         xspeed, yspeed = self.speed
