@@ -40,7 +40,7 @@ class GpioHandler(object):
 
         # This update method is called every iteration of the main loop.
         def updateData(self):
-                print "i value"
+#                print "i value"
                 for i in range(len(self.words)):                        
                         if wiringPi.digitalRead(ACK) != 0:
                                 wiringPi.digitalWrite(ACK, 0)
@@ -55,7 +55,7 @@ class GpioHandler(object):
 
                         for j in range(len(self.bits)):
                                 self.bits[j] = wiringPi.digitalRead(PINS[j])
-			""" 
+			"""  
 			#dummy data
                         if i == 0:
                                 self.bits = [1,1,1,1,1,1,1,1,1,1]
@@ -78,18 +78,20 @@ class GpioHandler(object):
                         elif i == 9:
                                 self.bits = [0,1,0,0,1,1,1,0,0,1]
  			"""
-			self.words[i] = list(self.bits)
-                        print i, self.words[i]
+ #                       print i, self.bits
                         
-			if (i != 0 and self.words[i] == [1 for k in range(len(self.bits))]) or self.words[0] != [1 for k in range(0,10)] or i == max(range(len(self.words))):
+			if (i != 0 and self.bits == [1 for k in range(len(self.bits))]) or (i == 0 and self.bits != [1 for k in range(len(self.bits))]) or i == max(range(len(self.words))):
 				wiringPi.digitalWrite(ACK, 1)
+			else:
+				self.words[i] = list(self.bits)
+#			print i, self.words[i]
 
                         self.time2 = time.time()-self.time0                        
                         while self.time2-self.time1 < CLKSPD:
                                 self.time2 = time.time()-self.time0
 #                       print round((self.time2-self.time1)*1000,2)
 
-			if (i != 0 and self.words[i] == [1 for k in range(len(self.bits))]) or self.words[0] != [1 for k in range(len(self.bits))]:
+			if (i != 0 and self.bits == [1 for k in range(len(self.bits))]) or (i == 0 and self.bits != [1 for k in range(len(self.bits))]):
 				break                        
 
         # This method returns the words, so other classes can use them.

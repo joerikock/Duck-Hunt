@@ -65,7 +65,7 @@ class Controller(object):
                     self.ducks[self.ducks.index(i)].render()
                     
                     time1 = time.time()*1000
-                    if (time1-self.time0)%200 < 30:
+                    if (time1-self.time0)%200 < 70:
                         self.ducks[self.ducks.index(i)].update()
                     
 
